@@ -1,0 +1,1 @@
+Saturday afternoon project that in no way should be used for anything *serious*.  This is a simple project to help me experiment with Jasmine (and git).  If, however, you'd like to use this project for something, then feel free to!
