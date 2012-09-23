@@ -1,26 +1,36 @@
 ﻿(function (undefined) {
-    Array.prototype.where = function (filter) {
+    function filterArray(value, filter, field) {
+        if (typeof (filter) === "function") {
+            if (filter(value)) {
+                return true;
+            }
+        }
+        else if (filter === value && !field) {
+            return true;
+        }
+        else if (value[field] === filter) {
+            return true;
+        }
+        return false;
+    }
+
+    Array.prototype.where = function (filter, field) {
         var length = this.length;
         var returnArray = new Array();
-        if (typeof (filter) !== "function") {
-            return this;
-        }
         for (var i = 0; i < length; i++) {
-            if (filter(this[i])) {
+            if (filterArray(this[i], filter, field)) {
                 returnArray.push(this[i]);
             }
         }
+
         return returnArray;
     };
 
-    Array.prototype.first = function (filter) {
+    Array.prototype.first = function (filter, field) {
         var length = this.length;
-        if (typeof (filter) !== "function") {
-            return this;
-        }
 
         for (var i = 0; i < length; i++) {
-            if (filter(this[i])) {
+            if (filterArray(this[i], filter, field)) {
                 return this[i];
             }
         }
@@ -28,28 +38,27 @@
         throw "no matches found for supplied filter";
     };
 
-    Array.prototype.single = function (filter) {
+    Array.prototype.single = function (filter, field) {
         var length = this.length;
         var match = false;
+        var singleExceptionMessage = "multiple items matched filter";
         var returnValue;
 
-        if (typeof (filter) !== "function") {
-            return this;
-        }
-
         for (var i = 0; i < length; i++) {
-            if (filter(this[i])) {
-                if (!match) {
-                    returnValue = this[i];
-                    match = true;
+            if (filterArray(this[i], filter, field)) {
+                if (match) {
+                    throw singleExceptionMessage;
                 }
-                else {
-                    throw "multiple items matched filter";
-                }
+                match = true;
+                returnValue = this[i];
             }
         }
 
-        return returnValue;
+        if (returnValue) {
+            return returnValue;
+        }
+
+        throw singleExceptionMessage;
     };
 
 })();
