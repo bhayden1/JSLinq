@@ -83,6 +83,7 @@
                 returnValue = this[i];
             }
         }
+        return returnValue;
     };
 
 })();
