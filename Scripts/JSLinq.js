@@ -1,4 +1,5 @@
-﻿(function (undefinied) {
+﻿(function () {
+    "use strict";
     var singleExceptionMessage = "multiple items matched filter";
     function processFilter(value, filter, field) {
         if (typeof (filter) === "function") {
