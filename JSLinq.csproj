@@ -54,6 +54,7 @@
     <Content Include="Content\jasmine\jasmine.css" />
     <Content Include="Content\jasmine\jasmine_favicon.png" />
     <Content Include="Index.html" />
+    <Content Include="JSLinq.test.object.html" />
     <Content Include="Scripts\jasmine-samples\Player.js" />
     <Content Include="Scripts\jasmine-samples\PlayerSpec.js" />
     <Content Include="Scripts\jasmine-samples\Song.js" />
@@ -62,6 +63,7 @@
     <Content Include="Scripts\jasmine\jasmine.js" />
     <Content Include="Scripts\JSLinq.test.js" />
     <Content Include="Scripts\JSLinq.js" />
+    <Content Include="Scripts\JSLinq.test.object.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

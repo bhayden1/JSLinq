@@ -5,7 +5,7 @@
     };
 }
 
-function createTestCompleteArray(length) {
+function createTestComplexArray(length) {
     var returnArray = [];
     for(var i=1; i <= length; i++) {
         returnArray.push(testObject("name " + i, i));
@@ -16,7 +16,7 @@ function createTestCompleteArray(length) {
 
 describe("The Array Where function", function () {
     var testArray = [1, 1, 2, 2];
-    var complexArray = createTestCompleteArray(5);
+    var complexArray = createTestComplexArray(5);
 
     it("exists", function () {
         expect(Array.prototype.where).not.toBe(undefined);
@@ -51,11 +51,17 @@ describe("The Array Where function", function () {
         var actual = complexArray.where(1, 'age');
         expect(actual[0].age).toBe(1);
     });
+
+    it("matches simple string on a simple array", function () {
+        var mock = ['a', 'a', 1, 1, 'b', "c", "a"];
+        var actual = mock.where("a");
+        expect(actual.length).toBe(3);
+    });
 });
 
 describe("The Array First function", function () {
     var testArray = [1, 4, 1, 1, 5];
-    var complexArray = createTestCompleteArray(5);
+    var complexArray = createTestComplexArray(5);
 
     it("exists", function () {
         expect(Array.prototype.first).not.toBe(undefined);
@@ -65,17 +71,6 @@ describe("The Array First function", function () {
         var filter = function (val) { return val === 5; };
         var actual = testArray.first(filter);
         expect(actual).toBe(5);
-    });
-
-    it("throws an exception when no value is found", function () {
-        var filter = function (value) { return value === 2; };
-        try {
-            testArray.first(filter);
-            expect(true).toBe(false);
-        } catch (e) {
-            var matches = e.match("no matches");
-            expect(matches.length > 0).toBe(true);
-        }
     });
 
     it("returns the first match on a complex array", function () {
@@ -97,7 +92,7 @@ describe("The Array First function", function () {
 
 describe("The Array single function", function () {
     var testArray = [1, 2, 3, 4];
-    var complexArray = createTestCompleteArray(5);
+    var complexArray = createTestComplexArray(5);
     it("exists", function () {
         expect(Array.prototype.single).not.toBe(undefined);
     });
