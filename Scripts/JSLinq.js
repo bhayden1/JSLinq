@@ -52,7 +52,7 @@
 
     Array.prototype.where = function (filter, field) {
         var length = this.length;
-        var returnArray = new Array();
+        var returnArray = [];
         for (var i = 0; i < length; i++) {
             if (processFilter(this[i], filter, field)) {
                 returnArray.push(this[i]);
