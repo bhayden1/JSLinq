@@ -14,13 +14,13 @@ function createTestComplexArray(length) {
     return returnArray;
 }
 
+function createSimpleArray() {
+
+}
+
 describe("The Array Where function", function () {
     var testArray = [1, 1, 2, 2];
-    var complexArray = createTestComplexArray(5);
-
-    it("exists", function () {
-        expect(Array.prototype.where).not.toBe(undefined);
-    });
+    var complexArray = createTestComplexArray(5);    
 
     it("filters simple array as expected", function () {
         var filter = function (val) {
@@ -61,11 +61,7 @@ describe("The Array Where function", function () {
 
 describe("The Array First function", function () {
     var testArray = [1, 4, 1, 1, 5];
-    var complexArray = createTestComplexArray(5);
-
-    it("exists", function () {
-        expect(Array.prototype.first).not.toBe(undefined);
-    });
+    var complexArray = createTestComplexArray(5);    
 
     it("returns the first match on a simple array", function () {
         var filter = function (val) { return val === 5; };
@@ -87,15 +83,18 @@ describe("The Array First function", function () {
     it("returns the first match on a complex array with a simple filter", function () {
         var actual = complexArray.first(1, 'age');
         expect(actual.age).toBe(1);
+        
+    });
+
+    it("returns the first item when no filter is passed", function () {
+        var actual = complexArray.first();
+        expect(actual.age).toBe(1);
     });
 });
 
 describe("The Array single function", function () {
     var testArray = [1, 2, 3, 4];
-    var complexArray = createTestComplexArray(5);
-    it("exists", function () {
-        expect(Array.prototype.single).not.toBe(undefined);
-    });
+    var complexArray = createTestComplexArray(5);    
 
     it("returns match with a filter function on a simple array", function () {
         var filter = function (val) { return val === 3; };
@@ -132,4 +131,79 @@ describe("The Array single function", function () {
         var actual = complexArray.single(4, 'age');
         expect(actual.age).toBe(4);
     });
+
+    it("returns single item with no filter", function () {
+        var singleArray = [1];
+        var actual = singleArray.single();
+        expect(actual).toBe(1);
+    });
+});
+
+describe("The Any function", function () {
+    var testArray = [1, 1, 1, 2, 3, 4, 5, 6];
+    var emptyArray = [];
+    var complexArray = createTestComplexArray(6);
+    it("returns true with no filter passed and a populated array", function () {
+        var actual = testArray.any();
+        expect(actual).toBe(true);
+    });
+
+    it("returns false with no filter passed and an empty array", function () {
+        var actual = emptyArray.any();
+        expect(actual).toBe(false);
+    });
+
+    it("returns true when chained off the where clause with results", function () {
+        var actual = testArray.where(1).any();
+        expect(actual).toBe(true);
+    });
+
+    it("returns false when chained off the where clause with no results", function () {
+        var actual = testArray.where(7).any();
+        expect(actual).toBe(false);
+    });
+
+    it("returns true when passed a simple filter on a simple array", function () {
+        var actual = testArray.any(4);
+        expect(actual).toBe(true);
+    });
+
+    it("returns false when passed a simple filter on a simple array with no matches", function () {
+        var actual = testArray.any(7);
+        expect(actual).toBe(false);
+    });
+
+    it("returns true when passed a function filter on a simple array with matches", function () {
+        var filter = function (item) { return item === 1; }
+        var actual = testArray.any(filter);
+        expect(actual).toBe(true);
+    });
+
+    it("returns false when passed a function filter on a simply array with no matches", function () {
+        var filter = function (item) { return item === 9; }
+        var actual = testArray.any(filter);
+        expect(actual).toBe(false);
+    });
+
+    it("returns true when passed a simple filter on a complex array with matches", function () {
+        var actual = complexArray.any(1, "age");
+        expect(actual).toBe(true);
+    });
+
+    it("returns false when passed a simple filter on a complex array with no matches", function () {
+        var actual = complexArray.any(10, "age");
+        expect(actual).toBe(false);
+    });
+
+    it("returns true when chained off of a where clause with a simple filter on a complex array with matches", function () {
+        var actual = complexArray.where(1, "age").any();
+        expect(actual).toBe(true);
+    });
+
+    it("returns false when chained off of a where clause with a simple filter on a complex array with no matches", function () {
+        var actual = complexArray.where(10, "age").any();
+        expect(actual).toBe(false);
+    });
+
+
 });

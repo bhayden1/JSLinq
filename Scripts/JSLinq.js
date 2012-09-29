@@ -1,7 +1,11 @@
-﻿(function () {
+﻿(function (undefined) {
     "use strict";
     var singleExceptionMessage = "multiple items matched filter";
     function processFilter(value, filter, field) {
+        if (filter === undefined) {
+            return false;
+        }
+
         if (typeof (filter) === "function") {
             if (filter(value)) {
                 return true;
@@ -63,7 +67,9 @@
 
     Array.prototype.first = function (filter, field) {
         var length = this.length;
-
+        if (filter === undefined) {
+            return this[0];
+        }
         for (var i = 0; i < length; i++) {
             if (processFilter(this[i], filter, field)) {
                 return this[i];
@@ -74,6 +80,9 @@
     Array.prototype.single = function (filter, field) {
         var length = this.length;
         var returnValue;
+        if (filter === undefined && length === 1) {
+            return this[0];
+        }
 
         for (var i = 0; i < length; i++) {
             if (processFilter(this[i], filter, field)) {
@@ -85,5 +94,14 @@
         }
         return returnValue;
     };
+
+    Array.prototype.any = function (filter, field) {
+        var length = this.length;
+        if (filter === undefined && length > 0) {
+            return true;
+        }
+        var match = this.first(filter, field);
+        return match !== undefined;
+    }
 
 })();
